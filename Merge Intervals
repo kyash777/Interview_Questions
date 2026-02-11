@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        stack<vector<int>>st;
+        int n=intervals.size();
+        sort(intervals.begin(),intervals.end());
+        for(int i=0;i<n;i++){
+            if(!st.empty()){
+                int x=intervals[i][0];
+                int y=intervals[i][1];
+                if(x<=st.top()[1]){
+                    vector<int>v=st.top();
+                    st.pop();
+                    st.push({min(v[0],x),max(v[1],y)});
+                }else{
+                    st.push(intervals[i]);
+                }
+            }else{
+                st.push(intervals[i]);
+            }
+        }
+        vector<vector<int>>ans;
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
+        }
+
+        return ans;
+    }
+};
